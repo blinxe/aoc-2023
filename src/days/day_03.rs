@@ -54,15 +54,14 @@ fn get_neighboring_gears(
         .enumerate()
         .skip(if ln > 0 { ln - 1 } else { 0 })
         .take(if ln > 0 { 3 } else { 2 })
-        .map(|(ln, l)| {
+        .flat_map(|(ln, l)| {
             l.char_indices()
                 .skip(if pos > 0 { pos - 1 } else { 0 })
                 .take(if pos > 0 { len + 2 } else { len + 1 })
                 .filter(|(_, c)| *c == '*')
-                .map(|(cn, _)| (ln, cn))
-                .collect::<Vec<(usize, usize)>>()
+                .map(move |(cn, _)| (ln, cn))
+            // .collect::<Vec<(usize, usize)>>()
         })
-        .flatten()
         .collect()
 }
 
