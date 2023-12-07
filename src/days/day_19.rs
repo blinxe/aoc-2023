@@ -27,7 +27,7 @@ mod test {
         super::solve_part_1(EXAMPLE_1);
     }
 
-    const EXAMPLE_2: &str = "";
+    const EXAMPLE_2: &str = EXAMPLE_1;
 
     #[test]
     fn test_part_2() {

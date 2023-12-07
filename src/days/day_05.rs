@@ -1,10 +1,10 @@
 use crate::utils::input::read_input;
 
-fn solve_part_1(input: &str) {
+fn solve_part_1(_input: &str) {
     println!("TODO");
 }
 
-fn solve_part_2(input: &str) {
+fn solve_part_2(_input: &str) {
     println!("TODO");
 }
 
@@ -27,7 +27,7 @@ mod test {
         super::solve_part_1(EXAMPLE_1);
     }
 
-    const EXAMPLE_2: &str = "";
+    const EXAMPLE_2: &str = EXAMPLE_1;
 
     #[test]
     fn test_part_2() {
