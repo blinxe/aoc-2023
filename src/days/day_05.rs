@@ -65,46 +65,87 @@ fn solve_part_1(input: &str) {
     println!("{:?}", min);
 }
 
-fn apply_transform_single_range(range: Range<u64>, mappings: &Transform) -> Vec<Range<u64>> {
-    let mut v = Vec::new();
-    for m in mappings {
-        let (rs, re) = (range.start, range.end);
-        let (ms, me) = (m[1], m[1] + m[2]);
-        if re < ms || me < rs {
-            continue;
+fn apply_map_range(range: &Range<u64>, m: &Mapping) -> (Option<Range<u64>>, Vec<Range<u64>>) {
+    let (rs, re) = (range.start, range.end);
+    let (ms, me) = (m[1], m[1] + m[2]);
+
+    let remapped;
+
+    let mut unchanged = Vec::new();
+
+    if me <= rs || ms >= re {
+        // no overlap
+        // range:                |------|
+        // mapping:    |------|     OR     |------|
+        remapped = None;
+        unchanged.push(rs..re);
+    } else {
+        // range:           |--
+        // mapping:    |--
+        let rms = rs.max(ms);
+        // range:      --|
+        // mapping:         --|
+        let rme = re.min(me);
+        if rme < rms {
+            remapped = None;
+        } else {
+            remapped = Some(rms - ms + m[0]..rme - ms + m[0]);
+        }
+
+        if rs < rms {
+            unchanged.push(rs..rms)
+        }
+        if re > rme {
+            unchanged.push(rme..re)
         }
     }
 
-    v
+    (remapped, unchanged)
 }
 
-fn apply_transform_ranges(ranges: &Vec<Range<u64>>, mappings: &Transform) -> Vec<Range<u64>> {
-    ranges
-        .iter()
-        .flat_map(|r| apply_transform_single_range(r.clone(), mappings))
-        .collect()
-}
-
-fn apply_process_range(range: Range<u64>, transforms: &Process) -> Vec<Range<u64>> {
-    let mut out = vec![range];
-    for t in transforms {
-        out = apply_transform_ranges(&out, t);
+fn apply_map_ranges(ranges: Vec<Range<u64>>, m: &Mapping) -> (Vec<Range<u64>>, Vec<Range<u64>>) {
+    let mut unchanged = Vec::new();
+    let mut remapped = Vec::new();
+    for r in ranges {
+        let (new_remapped, mut new_unchanged) = apply_map_range(&r, m);
+        //println!("{:?} -> {:?} / {:?}", r, new_remapped, new_unchanged);
+        unchanged.append(&mut new_unchanged);
+        if let Some(rm) = new_remapped {
+            remapped.push(rm);
+        }
     }
 
-    out
+    (unchanged, remapped)
+}
+
+fn apply_transform_ranges(ranges: Vec<Range<u64>>, t: &Transform) -> Vec<Range<u64>> {
+    let mut unchanged = ranges;
+    let mut remapped = Vec::new();
+    for m in t {
+        let mut new;
+        (unchanged, new) = apply_map_ranges(unchanged, m);
+        remapped.append(&mut new);
+    }
+
+    remapped.extend(unchanged.into_iter().filter(|r| r.start != r.end));
+    remapped
 }
 
 fn solve_part_2(input: &str) {
     let (seeds, process) = parse_input(input);
 
-    // let min = seeds
-    //     .chunks(2)
-    //     .map(|pair| pair[0]..pair[0] + pair[1])
-    //     .flat_map(|r| apply_process_range(r, &process))
-    //     .min_by_key(|r| r.start)
-    //     .unwrap();
+    let mut ranges = seeds
+        .chunks(2)
+        .map(|pair| pair[0]..pair[0] + pair[1])
+        .collect::<Vec<Range<u64>>>();
 
-    println!("TODO");
+    for t in process {
+        ranges = apply_transform_ranges(ranges, &t);
+    }
+
+    let min = ranges.iter().min_by_key(|r| r.start).unwrap();
+
+    println!("{}", min.start);
 }
 
 pub fn part_1() {
