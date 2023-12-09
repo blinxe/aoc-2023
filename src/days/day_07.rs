@@ -88,10 +88,6 @@ fn solve_part_1(input: &str) {
 
     data.sort_by(|(h1, _), (h2, _)| compare_hands(h1, h2));
 
-    for d in &data {
-        println!("{:?}", d);
-    }
-
     let total = data
         .iter()
         .enumerate()
@@ -177,10 +173,6 @@ fn solve_part_2(input: &str) {
         .collect::<Vec<(&str, u32)>>();
 
     data.sort_by(|(h1, _), (h2, _)| compare_hands_p2(h1, h2));
-
-    for d in &data {
-        println!("{:?}", d);
-    }
 
     let total = data
         .iter()

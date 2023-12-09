@@ -81,7 +81,7 @@ fn solve_part_1(input: &str) {
     println!("{:?}", answer);
 }
 
-fn solve_part_2(_input: &str) {
+fn solve_part_2(input: &str) {
     let data = parse_input(input);
 
     let power: u32 = data.iter().map(|(_, (r, g, b))| r * g * b).sum();

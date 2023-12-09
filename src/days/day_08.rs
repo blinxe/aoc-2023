@@ -13,7 +13,7 @@ struct Content {
 }
 
 fn parse_input(input: &str) -> Content {
-    let nav = input.split("\r\n\r\n").next().unwrap().chars().collect();
+    let nav = input.split("\n\n").next().unwrap().chars().collect();
 
     let mut nodes: Vec<Node> = Vec::new();
 
@@ -104,7 +104,7 @@ fn solve_part_1(input: &str) {
         count += 1;
     }
 
-    dbg!(count);
+    println!("{}", count);
 }
 
 fn solve_part_2(input: &str) {
@@ -121,13 +121,10 @@ fn solve_part_2(input: &str) {
 
     let mut counts: Vec<usize> = Vec::new();
 
-    println!("{:?}", currents);
-
     for (idx, mut current) in currents.into_iter().enumerate() {
         counts.push(0);
         let mut it = content.navigation.iter();
 
-        println!("{:?}", current);
         while current.name.last() != FINISH.last() {
             let mut dir = it.next().unwrap_or(&'Z');
 
@@ -157,8 +154,7 @@ fn solve_part_2(input: &str) {
     for c in &counts {
         result = lcm(result, *c);
     }
-    dbg!(counts);
-    dbg!(result);
+    println!("{}", result);
 }
 
 pub fn part_1() {
@@ -175,13 +171,13 @@ pub fn part_2() {
 mod test {
     const EXAMPLE_1: &str = "RL
 
-    AAA = (BBB, CCC)
-    BBB = (DDD, EEE)
-    CCC = (ZZZ, GGG)
-    DDD = (DDD, DDD)
-    EEE = (EEE, EEE)
-    GGG = (GGG, GGG)
-    ZZZ = (ZZZ, ZZZ)";
+AAA = (BBB, CCC)
+BBB = (DDD, EEE)
+CCC = (ZZZ, GGG)
+DDD = (DDD, DDD)
+EEE = (EEE, EEE)
+GGG = (GGG, GGG)
+ZZZ = (ZZZ, ZZZ)";
 
     #[test]
     fn test_part_1() {
@@ -190,14 +186,14 @@ mod test {
 
     const EXAMPLE_2: &str = "LR
 
-    11A = (11B, XXX)
-    11B = (XXX, 11Z)
-    11Z = (11B, XXX)
-    22A = (22B, XXX)
-    22B = (22C, 22C)
-    22C = (22Z, 22Z)
-    22Z = (22B, 22B)
-    XXX = (XXX, XXX)";
+11A = (11B, XXX)
+11B = (XXX, 11Z)
+11Z = (11B, XXX)
+22A = (22B, XXX)
+22B = (22C, 22C)
+22C = (22Z, 22Z)
+22Z = (22B, 22B)
+XXX = (XXX, XXX)";
 
     #[test]
     fn test_part_2() {

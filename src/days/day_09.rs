@@ -50,7 +50,7 @@ fn solve_part_1(_input: &str) {
 
         count += diff.last().unwrap();
     }
-    dbg!(count);
+    println!("{}", count);
 }
 
 fn solve_part_2(_input: &str) {
@@ -78,7 +78,7 @@ fn solve_part_2(_input: &str) {
 
         count += diff.first().unwrap();
     }
-    dbg!(count);
+    println!("{}", count);
 }
 
 pub fn part_1() {
@@ -94,8 +94,8 @@ pub fn part_2() {
 #[cfg(test)]
 mod test {
     const EXAMPLE_1: &str = "0 3 6 9 12 15
-    1 3 6 10 15 21
-    10 13 16 21 30 45";
+1 3 6 10 15 21
+10 13 16 21 30 45";
 
     #[test]
     fn test_part_1() {

@@ -35,7 +35,7 @@ fn solve_part_1(input: &str) {
     println!("{}", total);
 }
 
-fn solve_part_2(_input: &str) {
+fn solve_part_2(input: &str) {
     let matches = get_matches(input);
 
     let mut numbers = vec![1; matches.len()];

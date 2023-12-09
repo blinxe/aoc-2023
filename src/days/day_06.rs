@@ -33,7 +33,6 @@ fn solve_part_1(input: &str) {
                 count += 1;
             }
         }
-        println!("{:?}", count);
         result *= count;
     }
     println!("{:?}", result);

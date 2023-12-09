@@ -97,12 +97,12 @@ fn apply_process_range(range: Range<u64>, transforms: &Process) -> Vec<Range<u64
 fn solve_part_2(input: &str) {
     let (seeds, process) = parse_input(input);
 
-    let min = seeds
-        .chunks(2)
-        .map(|pair| pair[0]..pair[0] + pair[1])
-        .flat_map(|r| apply_process_range(r, &process))
-        .min_by_key(|r| r.start)
-        .unwrap();
+    // let min = seeds
+    //     .chunks(2)
+    //     .map(|pair| pair[0]..pair[0] + pair[1])
+    //     .flat_map(|r| apply_process_range(r, &process))
+    //     .min_by_key(|r| r.start)
+    //     .unwrap();
 
     println!("TODO");
 }
