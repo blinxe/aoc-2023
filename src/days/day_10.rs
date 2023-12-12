@@ -184,6 +184,18 @@ fn get_v_component(c: char) -> i32 {
     }
 }
 
+fn c_to_u(c: char) -> char {
+    match c {
+        '|' => '│',
+        'L' => '└',
+        'J' => '┘',
+        '7' => '┐',
+        'F' => '┌',
+        '-' => '─',
+        _ => c,
+    }
+}
+
 fn solve_part_2(input: &str) {
     let mut grid = parse_input(input);
     let spos = find_start(&grid);
@@ -211,20 +223,20 @@ fn solve_part_2(input: &str) {
             };
             if path_cells.contains(&pos) {
                 let c = grid[pos.l as usize][pos.c as usize];
-                // print!("{}", c);
+                print!("{}", c_to_u(c));
                 v_crosses += get_v_component(c);
                 if v_crosses == 2 || v_crosses == -2 {
                     in_nest = !in_nest;
                     v_crosses = 0;
                 }
             } else if in_nest {
-                // print!("I");
+                print!("#");
                 nest_size += 1;
             } else {
-                // print!("O");
+                print!(" ");
             }
         }
-        // println!();
+        println!();
     }
 
     println!("{}", nest_size);
