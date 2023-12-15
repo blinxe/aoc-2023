@@ -131,10 +131,3 @@ mod test {
         super::solve_part_2(EXAMPLE_2);
     }
 }
-
-#[test]
-fn testcmp() {
-    let v = vec![1, 2, 1];
-    let a = build_attempts(8, &v);
-    println!("{:?}", a);
-}
